@@ -15,6 +15,12 @@ import Cards from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import ReactPlayer from "react-player";
+import { BounceLoader, BarLoader, BeatLoader } from "react-spinners";
+import { css } from "@emotion/react";
+import LineChart from "./components/LineChart";
+import BarChart from "./components/BarChart";
+import DoughnutChart from "./components/DoughnutChart";
 
 const ColoredTooltip = () => {
   return <span style={{ color: "yellow" }}>Colored component</span>;
@@ -89,161 +95,174 @@ function App() {
   // Date picker
   const [selectedDate, setSelectedDate] = useState(null);
 
+  /////////////////////
+  const loaderCSS = css`
+    margin-top: 25px;
+    margin-bottom: 25px;
+  `;
+
   return (
-    <div
-      style={{
-        flexDirection: "row",
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      <div>
-        <IconContext.Provider value={{ color: "blue", size: "2rem" }}>
-          <FaReact />
-          <MdAlarm color="purple" size="5rem" />
-        </IconContext.Provider>
-        <button onClick={notify}>Notify</button>
-      </div>
-      <button onClick={() => setModalIsOpen(true)}>Open modal</button>
-      <Modal
-        isOpen={modalIsOpen}
-        shouldCloseOnOverlayClick={false}
-        onRequestClose={() => setModalIsOpen(false)}
+    <>
+      <div
         style={{
-          overlay: {
-            backgroundColor: "grey",
-          },
-          content: {
-            color: "orange",
-            backgroundColor: "white",
-            width: "50%",
-            height: "50%",
-            margin: "auto",
-          },
+          flexDirection: "row",
+          display: "flex",
+          alignItems: "center",
         }}
       >
-        <h2>Modal title</h2>
-        <p>Modal Body</p>
-        <button onClick={() => setModalIsOpen(false)}>Close</button>
-      </Modal>
-
-      <div style={{ marginTop: "10px", paddingBottom: "10px" }}>
-        <Tippy
-          placement="right"
-          arrow={false}
-          delay={1000}
-          content="Basic tooltip"
-        >
-          <button>Hover</button>
-        </Tippy>
-      </div>
-      <div style={{ paddingBottom: "10px" }}>
-        <Tippy
-          content={<span style={{ color: "orange" }}>Colored tooltip</span>}
-        >
-          <button>Hover</button>
-        </Tippy>
-      </div>
-      <div style={{ paddingBottom: "10px" }}>
-        <Tippy content={<ColoredTooltip />}>
-          <button>Hover</button>
-        </Tippy>
-      </div>
-
-      <div>
-        <Tippy
-          placement="top-start"
-          content={<ColoredTooltip></ColoredTooltip>}
-        >
-          <CostumChild></CostumChild>
-        </Tippy>
-      </div>
-      <div style={{ marginTop: "10px" }}>
         <div>
-          <h3 ref={countUpRef}></h3>
-          <button onClick={start}>Start</button>
-          <button onClick={reset}>Reset</button>
-          <button onClick={pauseResume}>Pause/Resume</button>
-          <button onClick={() => update(2000)}>Update to 2000</button>
+          <IconContext.Provider value={{ color: "blue", size: "2rem" }}>
+            <FaReact />
+            <MdAlarm color="purple" size="5rem" />
+          </IconContext.Provider>
+          <button onClick={notify}>Notify</button>
         </div>
-        <h4>
-          <CountUp end={200}></CountUp>
-        </h4>
-        <br />
-        <h4>
-          <CountUp end={200} duration={5}></CountUp>
-        </h4>
-        <br />
-        <h4>
-          <CountUp start={500} end={1000} duration={5}></CountUp>
-        </h4>
-        <br />
-        <h4>
-          <CountUp end={1000} duration={5} prefix="$" decimals={2}></CountUp>
-        </h4>
-        <h4>
-          <CountUp end={1000} duration={5} suffix="USD" decimals={2}></CountUp>
-        </h4>
-      </div>
-
-      <div>
-        <button
-          onClick={() =>
-            setShowColorPicker((showColorPicker) => !showColorPicker)
-          }
+        <button onClick={() => setModalIsOpen(true)}>Open modal</button>
+        <Modal
+          isOpen={modalIsOpen}
+          shouldCloseOnOverlayClick={false}
+          onRequestClose={() => setModalIsOpen(false)}
+          style={{
+            overlay: {
+              backgroundColor: "grey",
+            },
+            content: {
+              color: "orange",
+              backgroundColor: "white",
+              width: "50%",
+              height: "50%",
+              margin: "auto",
+            },
+          }}
         >
-          {showColorPicker ? "Close color picker" : "Pick a color!"}
-        </button>
-        {showColorPicker && (
-          <ChromePicker
-            color={color}
-            onChange={(updatedColor) => setColor(updatedColor.hex)}
-          ></ChromePicker>
-        )}
-        <h1 style={{ backgroundColor: `${color}` }}>{color}</h1>
-      </div>
-      <div>
-        <Cards
-          number={number}
-          name={name}
-          expiry={expiry}
-          cvc={cvc}
-          focused={focus}
-        />
-        <form>
-          <input
-            type="tel"
-            name="number"
-            placeholder="Card Number"
-            value={number}
-            onChange={(e) => setNumber(e.target.value)}
-            onFocus={(e) => setFocus(e.target.name)}
+          <h2>Modal title</h2>
+          <p>Modal Body</p>
+          <button onClick={() => setModalIsOpen(false)}>Close</button>
+        </Modal>
+
+        <div style={{ marginTop: "10px", paddingBottom: "10px" }}>
+          <Tippy
+            placement="right"
+            arrow={false}
+            delay={1000}
+            content="Basic tooltip"
+          >
+            <button>Hover</button>
+          </Tippy>
+        </div>
+        <div style={{ paddingBottom: "10px" }}>
+          <Tippy
+            content={<span style={{ color: "orange" }}>Colored tooltip</span>}
+          >
+            <button>Hover</button>
+          </Tippy>
+        </div>
+        <div style={{ paddingBottom: "10px" }}>
+          <Tippy content={<ColoredTooltip />}>
+            <button>Hover</button>
+          </Tippy>
+        </div>
+
+        <div>
+          <Tippy
+            placement="top-start"
+            content={<ColoredTooltip></ColoredTooltip>}
+          >
+            <CostumChild></CostumChild>
+          </Tippy>
+        </div>
+        <div style={{ marginTop: "10px" }}>
+          <div>
+            <h3 ref={countUpRef}></h3>
+            <button onClick={start}>Start</button>
+            <button onClick={reset}>Reset</button>
+            <button onClick={pauseResume}>Pause/Resume</button>
+            <button onClick={() => update(2000)}>Update to 2000</button>
+          </div>
+          <h4>
+            <CountUp end={200}></CountUp>
+          </h4>
+          <br />
+          <h4>
+            <CountUp end={200} duration={5}></CountUp>
+          </h4>
+          <br />
+          <h4>
+            <CountUp start={500} end={1000} duration={5}></CountUp>
+          </h4>
+          <br />
+          <h4>
+            <CountUp end={1000} duration={5} prefix="$" decimals={2}></CountUp>
+          </h4>
+          <h4>
+            <CountUp
+              end={1000}
+              duration={5}
+              suffix="USD"
+              decimals={2}
+            ></CountUp>
+          </h4>
+        </div>
+
+        <div>
+          <button
+            onClick={() =>
+              setShowColorPicker((showColorPicker) => !showColorPicker)
+            }
+          >
+            {showColorPicker ? "Close color picker" : "Pick a color!"}
+          </button>
+          {showColorPicker && (
+            <ChromePicker
+              color={color}
+              onChange={(updatedColor) => setColor(updatedColor.hex)}
+            ></ChromePicker>
+          )}
+          <h1 style={{ backgroundColor: `${color}` }}>{color}</h1>
+        </div>
+        <div>
+          <Cards
+            number={number}
+            name={name}
+            expiry={expiry}
+            cvc={cvc}
+            focused={focus}
           />
-          <input
-            type="text"
-            name="name"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            onFocus={(e) => setFocus(e.target.name)}
-          />
-          <input
-            type="text"
-            name="expiry"
-            placeholder="MM/YY Expiry"
-            value={expiry}
-            onChange={(e) => setExpiry(e.target.value)}
-            onFocus={(e) => setFocus(e.target.name)}
-          />
-          <input
-            type="tel"
-            name="cvc"
-            placeholder="CVC"
-            value={cvc}
-            onChange={(e) => setCvc(e.target.value)}
-            onFocus={(e) => setFocus(e.target.name)}
-          />
-        </form>
+          <form>
+            <input
+              type="tel"
+              name="number"
+              placeholder="Card Number"
+              value={number}
+              onChange={(e) => setNumber(e.target.value)}
+              onFocus={(e) => setFocus(e.target.name)}
+            />
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onFocus={(e) => setFocus(e.target.name)}
+            />
+            <input
+              type="text"
+              name="expiry"
+              placeholder="MM/YY Expiry"
+              value={expiry}
+              onChange={(e) => setExpiry(e.target.value)}
+              onFocus={(e) => setFocus(e.target.name)}
+            />
+            <input
+              type="tel"
+              name="cvc"
+              placeholder="CVC"
+              value={cvc}
+              onChange={(e) => setCvc(e.target.value)}
+              onFocus={(e) => setFocus(e.target.name)}
+            />
+          </form>
+        </div>
       </div>
       <div>
         <DatePicker
@@ -258,7 +277,32 @@ function App() {
           scrollableMonthYearDropdown
         />
       </div>
-    </div>
+      <ReactPlayer
+        width="480px"
+        height="240px"
+        controls
+        url="https://www.youtube.com/watch?v=zhDwjnYZiCo&ab_channel=LofiCoffee"
+        // onReady={() => console.log("onReady callback")}
+        // onStart={() => console.log("onStart callback")}
+        // onPause={() => console.log("onPause callback")}
+        // onEnded={() => console.log("onEnded callback")}
+        // onError={() => console.log("onError callback")}
+      />
+      <div className="loading">
+        <BounceLoader css={loaderCSS} size={48} color="red" loading />
+        <BarLoader css={loaderCSS} size={48} color="orange" loading />
+        <BeatLoader css={loaderCSS} size={72} color="purple" loading />
+      </div>
+      <div className="chart">
+        <LineChart />
+      </div>
+      <div className="chart">
+        <BarChart />
+      </div>
+      <div className="chart">
+        <DoughnutChart />
+      </div>
+    </>
   );
 }
 

@@ -52,3 +52,15 @@ input {
   border-radius: 0.25rem;
   transition: border-color 0.15s;
 }
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart {
+  display: flex;
+  justify-content: center;
+  width: 720px;
+}
